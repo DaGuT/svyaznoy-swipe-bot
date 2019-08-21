@@ -1,0 +1,89 @@
+// ==UserScript==
+// @name         New Userscript
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  Связной авто свайп до выпадения промокода на 70% или 99%
+// @author       DaGuT
+// @include      https://www.svyaznoy.ru/swipe*
+// @grant        none
+// ==/UserScript==
+
+(function () {
+  'use strict';
+$(document).ready(()=>{
+  //swipeCard
+  function swipeCard() {
+    mouseEvent(973, 588, 'mousedown', $('.card._c1.vue-interact-animated')[0]);
+    mouseEvent(973, 588, 'click', $('.card._c1.vue-interact-animated')[0]);
+    mouseEvent(973, 488, 'mousemove', $('.card._c1.vue-interact-animated')[0]);
+    mouseEvent(973, 488, 'mouseup', document);
+  }
+
+  //swipe rule
+  function swipeRule() {
+    mouseEvent(973, 588, 'mousedown', $('.game-info.vue-interact-animated')[0]);
+    mouseEvent(973, 588, 'click', $('.game-info.vue-interact-animated')[0]);
+    mouseEvent(973, 488, 'mousemove', $('.game-info.vue-interact-animated')[0]);
+    mouseEvent(973, 488, 'mouseup', document);
+  };
+
+  //Function to dispatch events
+  function mouseEvent(x, y, eventName, el) {
+    var mouseMoveEvent = document.createEvent("MouseEvents");
+
+    mouseMoveEvent.initMouseEvent(eventName, //event type : click, mousedown, mouseup, mouseover, mousemove, mouseout.
+        true, //canBubble
+        false, //cancelable
+        window, //event's AbstractView : should be window
+        1, // detail : Event's mouse click count
+        x, // screenX
+        y, // screenY
+        x, // clientX
+        y, // clientY
+        false, // ctrlKey
+        false, // altKey
+        false, // shiftKey
+        false, // metaKey
+        0, // button : 0 = click, 1 = middle button, 2 = right button
+        null // relatedTarget : Only used with some event types (e.g. mouseover and mouseout). In other cases, pass null.
+    );
+
+    el.dispatchEvent(mouseMoveEvent)
+  }
+
+    function checkPrize() {
+    if ((($('.prize__discount-info').html().toLowerCase().indexOf('70%') > -1) || ($('.prize__discount-info').html().toLowerCase().indexOf('99%') > -1)|| ($('.prize__discount-info').html().toLowerCase().indexOf('2000') > -1)) && $('.prize__discount-info').html().indexOf('Скидка 70% на чехол или пленку') === -1) {
+    alert('yay!');
+    } else {
+        location.reload();
+      }
+    }
+
+  //click start
+
+  setTimeout(() => {
+    $('.s1__controls .button-start').click();
+  }, 1000)
+
+  //swipe rules
+  setTimeout(() => {
+    swipeRule();
+  }, 2000);
+  setTimeout(() => {
+    swipeRule();
+  }, 3000);
+
+
+
+  let int = setInterval(() => {
+
+    if ($('.prize__title').length) {
+
+      setTimeout(checkPrize,1000);
+      clearInterval(int);
+    } else {
+      swipeCard();
+    }
+  }, Math.floor(Math.random()*1000)+500);
+});
+})();
