@@ -33,6 +33,7 @@
             if (memorized == $('.cards-list').html()) {
                 location.reload();
             }
+            memorized = $('.cards-list').html();
         }
     }
 
