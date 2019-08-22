@@ -1,0 +1,45 @@
+// ==UserScript==
+// @name         New Userscript
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       DaGuT
+// @match        https://sale.aliexpress.com/ru/__mobile/memberbenefitsFlip.htm?aff_platform=promotion&cpt=1566480155629&sk=f5zEBqC&aff_trace_key=362d7eda9f9a4fd39b7b595b3174af30-1566480155629-09305-f5zEBqC&terminal_id=f1fae83848c84b759287067822da575f
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+    function clickPlay() {
+        $('.card-item').click();
+    }
+
+    function closeModal() {
+        $('.g-d-close.act-item').click();
+    }
+
+    function checkForError() {
+        if ($('.g-dialog.error.pc-style').length)
+        if ($('.g-dialog.error.pc-style').html().toLowerCase().indexOf('система перегружена')>=0) {
+            location.reload();
+        }
+    }
+
+    let memorized = '';
+    function checkIfStuck() {
+        if (memorized=='') {
+           memorized = $('.cards-list').html();
+        } else {
+            if (memorized == $('.cards-list').html()) {
+                location.reload();
+            }
+        }
+    }
+
+    setInterval(clickPlay,1000);
+    setInterval(closeModal,1000);
+    setInterval(checkForError,300);
+    setInterval(checkIfStuck,5000);
+
+
+})();
