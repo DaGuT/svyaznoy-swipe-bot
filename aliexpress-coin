@@ -37,10 +37,10 @@
         }
     }
 
-    setInterval(clickPlay,1000);
-    setInterval(closeModal,1000);
-    setInterval(checkForError,300);
-    setInterval(checkIfStuck,5000);
+    setInterval(clickPlay,2000);
+    setInterval(closeModal,2000);
+    setInterval(checkForError,3000);
+    setInterval(checkIfStuck,10000);
 
 
 })();
